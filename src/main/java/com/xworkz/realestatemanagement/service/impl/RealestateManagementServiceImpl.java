@@ -162,8 +162,6 @@ public class RealestateManagementServiceImpl implements RealestateManagementServ
 
     }
 
-//    realEsate
-
     @Override
     public String getEmailForLogin(String email) {
         List<String> mailCheck = repository.getEmailForLogin(email);
@@ -290,9 +288,6 @@ public class RealestateManagementServiceImpl implements RealestateManagementServ
             return false;
         }
     }
-
-
-
     @Override
     public List<BiddingDto> validateGetBiddingInfoById(int id) {
         System.out.println("validateGetBiddingInfoById  service"+repository.getBiddingInfoById(id).toString());
