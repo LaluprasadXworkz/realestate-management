@@ -2,9 +2,12 @@ package com.xworkz.realestatemanagement.controller;
 
 import com.xworkz.realestatemanagement.dto.*;
 import com.xworkz.realestatemanagement.entity.PropertyEntity;
+import com.xworkz.realestatemanagement.repository.impl.RealestateManagementRepositoryImpl;
 import com.xworkz.realestatemanagement.resorce.OtpGenerator;
 import com.xworkz.realestatemanagement.service.*;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,8 @@ import java.time.LocalDateTime;
 @Controller
 @RequestMapping("/")
 public class RealEstateManagementController {
+
+    private static final Logger logger = LoggerFactory.getLogger(RealEstateManagementController.class);
     @Autowired
     private RealestateManagementService service;
     @Autowired
@@ -26,25 +31,30 @@ public class RealEstateManagementController {
 
     @GetMapping("/home")
     public String home() {
+        logger.info("Returning  Home page");
         return "index.jsp";
     }
 
     @GetMapping("/homeToRegister")
     public String toRegister() {
+        logger.info("Home Page To Register page");
         return "register.jsp";
     }
 
     @GetMapping("/homeToLogin")
     public String toLogin() {
+        logger.info("Home Page to Login Page");
         return "login.jsp";
     }
 
     @PostMapping("/creatingRealEstate")
     public String createRealEstate(@ModelAttribute RegisterDto dto, HttpServletRequest req) {
         if (service.validateSaveRegisterInfo(dto)){
+            logger.info("RegisterDto Saved");
             req.setAttribute("message", "Congratulations! Your registration was successful. Log in to view your Profile.");
             return "mesg.jsp";
         }else {
+            logger.warn("RegisterDto Not Saved");
             req.setAttribute("message", "Please try again");
             return "mesg.jsp";
         }
@@ -62,6 +72,7 @@ public class RealEstateManagementController {
             service.validateUpdateOTPByEmail(otp, email);
             this.otpGenerationTime = LocalDateTime.now();
             this.emailToOTp = email;
+            logger.info("Otp sent to this "+email +"-"+ otp);
             request.setAttribute("mail", email);
             return "Otp.jsp";
         } else {
@@ -74,33 +85,37 @@ public class RealEstateManagementController {
     int count = 0;
     @PostMapping("/SetOTP")
     public String loginToProfile(@RequestParam("generatedOtp") String generatedOtp, HttpServletRequest request) {
+        logger.info("Received request to verify OTP for email: {}", emailToOTp);
         if (count < 3) {
+            logger.debug("Checking OTP attempt count: {}", count);
             if (LocalDateTime.now().isBefore(otpGenerationTime.plusMinutes(2))) {
                 if (generatedOtp.equals(service.validateGetOtpByEmail(emailToOTp))) {
                     RegisterDto dto = service.validateGetInfoByEmail(emailToOTp);
                     this.logIn = dto.getRid();
-                    System.out.println(logIn);
                     if (dto != null && logIn != 0) {
-                        System.out.println("in " + logIn);
+                        logger.info("User logged in successfully with ID: {}", logIn);
                         request.setAttribute("inforef", service.validateGetRegisterInfo(logIn));
-
                         request.setAttribute("infoList", service.validateGetProperty(logIn));
                         return "viewProfile.jsp";
                     } else {
+                        logger.warn("User info not found for email: {}", emailToOTp);
                         request.setAttribute("msg", "User Info not found Register Before Logging In ");
                         return "login.jsp";
                     }
                 } else {
                     count += 1;
+                    logger.warn("Incorrect OTP entered for email: {}. Attempt: {}", emailToOTp, count);
                     request.setAttribute("msg", "Entered OTP is Incorrect please Enter Valid OTP." +
                             " You have entered wrong OTP " + count + " time(s).");
                     return "Otp.jsp";
                 }
             } else {
+                logger.warn("OTP expired for email: {}", emailToOTp);
                 request.setAttribute("msg", "OTP Expired Regenerate");
                 return "login.jsp";
             }
         } else {
+            logger.warn("Max OTP attempts reached for email: {}. Blocking account.", emailToOTp);
             service.validateUpdateAccountStatusByEmail("Blocked", emailToOTp);
             request.setAttribute("message", "Yor Account is blocked Contact Service Provider");
             return "mesg.jsp";
@@ -109,11 +124,12 @@ public class RealEstateManagementController {
 
     @GetMapping("/display")
     public void displayUserImage(HttpServletResponse response, @RequestParam String imagepath) throws IOException {
-        System.out.println("display image"+imagepath);
         File file = new File("C:\\Users\\lalup\\OneDrive\\Desktop\\realEsate\\image" + imagepath);
+        logger.warn("Image file not found at path: {}", imagepath);
         InputStream in = new BufferedInputStream(new FileInputStream(file));
         ServletOutputStream out = response.getOutputStream();
         IOUtils.copy(in, out);
+        logger.info("Image displayed ");
         response.flushBuffer();
 
     }
@@ -121,7 +137,7 @@ public class RealEstateManagementController {
     @GetMapping("/update")
     public String update(@RequestParam("id") int id, HttpServletRequest req) {
         req.setAttribute("inforef", service.validateGetRegisterInfo(id));
-        System.out.println(service.validateGetRegisterInfo(id) + "update");
+        logger.info("RegisterDto retrieved successfully for ID: {}", id);
         return "updateRealEstate.jsp";
     }
 
@@ -130,12 +146,14 @@ public class RealEstateManagementController {
         if(service.validateUpdateById(dto, logIn)){
             service.validateUpdateById(dto, logIn);
             req.setAttribute("inforef", service.validateGetRegisterInfo(logIn));
+            logger.info("Profile updated successfully for ID: {}", logIn);
             req.setAttribute("message", "Updated");
             req.setAttribute("infoList", service.validateGetProperty(logIn));
             return "viewProfile.jsp";
         }else {
             req.setAttribute("inforef", service.validateGetRegisterInfo(logIn));
-            req.setAttribute("message", " not Updated");
+            logger.warn("Failed to update profile for ID: {}", logIn);
+            req.setAttribute("message", "Not Updated");
             req.setAttribute("infoList", service.validateGetProperty(logIn));
             return "viewProfile.jsp";
         }
@@ -143,31 +161,41 @@ public class RealEstateManagementController {
 
     @GetMapping("/delete")
     public RedirectView deleteRealEstate(@RequestParam("id") int id, HttpServletRequest request) {
-        request.setAttribute("inforef", service.validateDeleteById(id));
+        logger.info("Received request to delete real estate entry with ID: {}", id);
+        boolean deleteResult = service.validateDeleteById(id);
+        if (deleteResult) {
+            logger.info("Real estate entry with ID {} deleted successfully", id);
+        } else {
+            logger.warn("Failed to delete real estate entry with ID: {}", id);
+        }
+        request.setAttribute("inforef", deleteResult);
         return new RedirectView("/home", true);
     }
 
     @GetMapping("/view")
     public String view(@RequestParam("id") int id, HttpServletRequest req) {
         req.setAttribute("inforef", service.validateGetRegisterInfo(logIn));
+        logger.info("Viewing profile for ID: {}", id);
         return "profileView.jsp";
     }
 
     @GetMapping("/toViewProfile")
     public String toViewProfile(@RequestParam("id") int id, HttpServletRequest req) {
+        logger.info("Viewing profile for ID: {}", id);
         req.setAttribute("inforef", service.validateGetRegisterInfo(id));
         req.setAttribute("infoList", service.validateGetProperty(id));
         return "viewProfile.jsp";
     }
     @GetMapping("/viewProfileToSell")
     public String viewProfileToSell(@RequestParam("id") int id, HttpServletRequest req) {
+        logger.info("Viewing profile to sell for ID: {}", id);
         req.setAttribute("inforef", service.validateGetRegisterInfo(id));
         return "property.jsp";
     }
 
     @PostMapping("/creatingPropertyDto")
     public String createPropertyDto(@ModelAttribute PropertyDto dto, HttpServletRequest req) throws IOException {
-        System.out.println("creatingPropertyDtoABC"+logIn);
+        logger.info("Creating property DTO for user ID: {}", logIn);
         service.savePropertyDto(logIn,dto);
         req.setAttribute("inforef", service.validateGetRegisterInfo(logIn));
         req.setAttribute("message", "Congratulations! Your Property  Details saved");
@@ -179,6 +207,7 @@ public class RealEstateManagementController {
     public String dasBordToBidForm(@RequestParam("id") int id, HttpServletRequest req) {
         PropertyEntity dto = service.validateGetPropertyTypeById(id);
          this.pid=id;
+        logger.info("Preparing bid form for property ID: {}", id);
         req.setAttribute("propertyType", dto.getPropertyType());
         req.setAttribute("basePrice",dto.getPrice());
         req.setAttribute("inforef", service.validateGetRegisterInfo(logIn));
@@ -188,6 +217,8 @@ public class RealEstateManagementController {
     @PostMapping("/biddingAmount")
     public String biddingFromSave(@ModelAttribute BiddingDto dto, HttpServletRequest req) {
         service.saveBidding(pid,logIn,dto);
+        logger.info("Saved bidding amount for property ID: {} and user ID: {}", pid, logIn);
+        logger.info(dto.toString());
         req.setAttribute("inforef", service.validateGetRegisterInfo(logIn));
         req.setAttribute("infoList", service.validateGetProperty(logIn));
         return "viewProfile.jsp";
@@ -197,6 +228,7 @@ public class RealEstateManagementController {
     public String getBiddingTable(@RequestParam("id") int id, HttpServletRequest req) {
         req.setAttribute("inforef", service.validateGetRegisterInfo(logIn));
         req.setAttribute("bidding", service.validateGetBiddingInfoById(id));
+        logger.info("Retrieved bidding info for property ID: {}", id);
         return "biddingTable.jsp";
     }
 
@@ -208,12 +240,14 @@ public class RealEstateManagementController {
         req.setAttribute("inforef", service.validateGetRegisterInfo(logIn));
         req.setAttribute("message", "Congratulation your Property is Sold");
         req.setAttribute("infoList", service.validateGetProperty(logIn));
+        logger.info("Property with ID {} has been marked as sold", id);
         return "viewProfile.jsp";
     }
     @GetMapping("/sold")
     public String sold(@RequestParam("id") int id, HttpServletRequest req){
         req.setAttribute("details",service.validateGetSellerDetailsById(id));
         req.setAttribute("inforef", service.validateGetRegisterInfo(id));
+        logger.info("Viewing details of property sold by seller with ID {}", id);
         return "soldProperty.jsp";
     }
 
@@ -221,6 +255,7 @@ public class RealEstateManagementController {
     public String buy(@RequestParam("id") int id, HttpServletRequest req){
         req.setAttribute("details",service.validateGetBuyerDetailsById(id));
         req.setAttribute("inforef", service.validateGetRegisterInfo(id));
+        logger.info("Viewing details of property to buy with ID {}", id);
         return "buyProperty.jsp";
     }
 

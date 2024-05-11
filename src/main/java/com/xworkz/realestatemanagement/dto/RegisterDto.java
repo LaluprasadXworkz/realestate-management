@@ -12,6 +12,7 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @NoArgsConstructor
 @Component
+@ToString
 @NamedQueries({
         @NamedQuery(name = "getEmail", query = "select dto.email from RegisterDto dto "),
         @NamedQuery(name = "getContactNumber", query = "select dto.contactNumber from RegisterDto dto"),

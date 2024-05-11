@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<!-- <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 pageEncoding="ISO-8859-1" %> <%@ taglib uri="http://java.sun.com/jsp/jstl/core"
-prefix="c" %>
+prefix="c" %> -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,10 +11,8 @@ prefix="c" %>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
   <style>
-
-    .navbar-custom {
-      background: linear-gradient(270deg, #ff5733,White, #3498db, #000000);
-      padding: 20px 0;
+    .custom-navbar {
+      background-image: linear-gradient(270deg, #ff5733, #3498db, #000000);
     }
     .navbar-custom .navbar-brand,
     .navbar-custom .navbar-nav .nav-link {
@@ -26,17 +24,27 @@ prefix="c" %>
   </style>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
-    <div class="container-fluid">
-      <img src="https://www.x-workz.in/static/media/Logo.cf195593dc1b3f921369.png"
-                          style="height: 53px; width: 110px ;margin-left: 15vh;" alt="XWorkz Logo">
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav" style="margin-right: 50px;">
-        <a href="homeToRegister" class="ml-md-3">
-          <button type="button" class="btn btn btn-outline-dark">Register</button>
-        </a>
-        <a href="homeToLogin" class="ml-md-3">
-          <button type="button" class="btn btn btn-outline-dark">Log in</button>
-        </a>
+  <nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img src="https://www.x-workz.in/static/media/Logo.cf195593dc1b3f921369.png"
+          style="height: 50px; width: 105px; margin-left: 15px;" alt="XWorkz Logo" />
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a href="homeToRegister" class="nav-link text-white ml-md-3">Register</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link text-white ml-md-3" href="homeToLogin" tabindex="-1" aria-disabled="true">Log in</a>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>

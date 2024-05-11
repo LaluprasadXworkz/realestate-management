@@ -13,101 +13,92 @@
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        .navbar-custom {
-            background: linear-gradient(271deg, #ff5733, #3498db, #000000);
-            padding: 20px 0;
-        }
-
-        .navbar-custom .navbar-brand,
-        .navbar-custom .navbar-nav .nav-link {
-            color: #fff;
-        }
-
-        .navbar-custom .navbar-toggler-icon {
-            background-color: #fff;
+        .custom-navbar {
+            background-image: linear-gradient(270deg, #ff5733, #3498db, #000000);
         }
 
         .center-align {
             text-align: center;
         }
 
-        #myForm {
-            width: 75vh;
-        }
-
-        .errors ,.error{
+        .errors,
+        .error {
             color: red;
         }
     </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
-        <img src="https://www.x-workz.in/static/media/Logo.cf195593dc1b3f921369.png"
-            style="height: 53px; width: 110px ;margin-left: 15vh;" alt="XWorkz Logo">
-
-        <div class="navbar-collapse justify-content-end grid gap-3" id="navbarNav"
-            style="width: 30vh;margin-right: 50px;">
-            <a href="toViewProfile?id=${inforef.getRid()}" class="ml-md-3">
-                <button type="button" class="btn btn btn-outline-dark">Back</button>
+    <nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="https://www.x-workz.in/static/media/Logo.cf195593dc1b3f921369.png"
+                    style="height: 50px; width: 105px; margin-left: 15px;" alt="XWorkz Logo" />
             </a>
-
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-white ml-md-3" href="toViewProfile?id=${inforef.getRid()}"
+                            tabindex="-1" aria-disabled="true">Back</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 
-    <div class="mx-auto p-2 border border-5">
+    <div class="mx-auto p-2">
 
-        <form id="myForm" onsubmit="return validateForm()" action="creatingPropertyDto" method="post"  enctype="multipart/form-data"
-            class="form-control border-success  shadow p-3 mb-5 bg-body-tertiary rounded container justify-content-center">
-            <h3 for="exampleFormControlInput1" class="form-label">
-                Property Details
-            </h3>
+        <form id="myForm" onsubmit="return validateForm()"
+            action="creatingPropertyDto" method="post" enctype="multipart/form-data"
+            class="form-control border-success shadow p-3 mb-5 bg-body-tertiary rounded container">
+            <div class="row justify-content-center">
+                <h3 class="form-label">Property Details</h3>
 
-            <div>
-                <label for="pType" class="form-label">Property Type <span class="errors">*</span></label>
-                <input type="text" class="form-control" id="pType" name="propertyType" />
-                <span class="error" id="pTypeError"></span>
-            </div>
-            <br>
-            <div>
-                <label for="sFeet" class="form-label">Square Feet <span class="errors">*</span></label>
-                <input type="text" class="form-control" id="sFeet" name="squareFeet" />
-                <span class="error" id="sFeetError"></span>
-            </div>
-            <br>
-            <div>
-
-                <label for="cost" class="form-label">Price <span class="errors">*</span></label>
-                <input type="text" class="form-control" id="cost" name="price" />
-                <span class="error" id="costError"></span>
-
-
-            </div>
-            <br>
-            <div>
-
-                <label for="loc" class="form-label">Location <span class="errors">*</span></label>
-                <textarea class="form-control" id="loc" name="location"></textarea>
-
-                <span class="error" id="locError"></span>
-
-            </div>
-            <br>
-            <div>
-                <label for="pinCode" class="form-label">Pin code <span class="errors">*</span></label>
-                <input type="number" class="form-control" id="pinCode" name="pinCode"></input>
-                <span class="error" id="pinCodeError"></span>
-
-            </div>
-            <br>
-            <div>
-                <label for="propertyImage" class="form-label">Add Property Images</label>
-                <input type="file" class="form-control" id="propertyImage" name="multipartFile" accept="image/*"></input>
-            </div>
-            <br>
-            <div class="mb-3 text-center">
-                <input type="submit" class="btn btn-outline-danger" value="Submit" />
-                <input type="reset" class="btn btn-outline-dark" value="Clear" onclick="clearForm()" />
+                <div class="col-md-6">
+                    <label for="pType" class="form-label">Property Type <span class="errors">*</span></label>
+                    <input type="text" class="form-control" id="pType" name="propertyType" />
+                    <span class="error" id="pTypeError"></span>
+                </div>
+                <div class="col-md-6">
+                    <label for="oName" class="form-label">Owner Name <span class="errors">*</span></label>
+                    <input type="text" class="form-control" id="oName" name="ownerName" />
+                    <span class="error" id="oNameError"></span>
+                </div>
+                <div class="col-md-6">
+                    <label for="sFeet" class="form-label">Square Feet <span class="errors">*</span></label>
+                    <input type="text" class="form-control" id="sFeet" name="squareFeet" />
+                    <span class="error" id="sFeetError"></span>
+                </div>
+                <div class="col-md-6">
+                    <label for="cost" class="form-label">Price <span class="errors">*</span></label>
+                    <input type="text" class="form-control" id="cost" name="price" />
+                    <span class="error" id="costError"></span>
+                </div>
+                <div class="col-md-6">
+                    <label for="loc" class="form-label">Location <span class="errors">*</span></label>
+                    <textarea class="form-control" id="loc" name="location"></textarea>
+                    <span class="error" id="locError"></span>
+                </div>
+                <div class="col-md-6">
+                    <label for="pinCode" class="form-label">Pin code <span class="errors">*</span></label>
+                    <input type="number" class="form-control" id="pinCode" name="pinCode" />
+                    <span class="error" id="pinCodeError"></span>
+                </div>
+                <div class="col-md-12">
+                    <label for="propertyImage" class="form-label">Add Property Images</label>
+                    <input type="file" class="form-control" id="propertyImage" name="multipartFile" accept="image/*" />
+                </div>
+                <div>
+                    <br>
+                </div>
+                <div class="col-md-12 text-center">
+                    <input type="submit" class="btn btn-outline-danger" value="Submit" />
+                    <input type="reset" class="btn btn-outline-dark" value="Clear" onclick="clearForm()" />
+                </div>
             </div>
         </form>
     </div>
@@ -142,14 +133,7 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
-        crossorigin="anonymous"></script>
     <script>
-
         function validateForm() {
             var pType = document.getElementById("pType").value;
             var oName = document.getElementById("oName").value;
@@ -166,6 +150,13 @@
             } else {
                 document.getElementById("pTypeError").innerText = "";
             }
+            // Owner Name Validation
+            if (oName.trim() === "") {
+                document.getElementById("oNameError").innerText = "Please enter owner name.";
+                isValid = false;
+            } else {
+                document.getElementById("oNameError").innerText = "";
+            }
             // Square Feet Validation
             if (sFeet.trim() === "") {
                 document.getElementById("sFeetError").innerText = "Please enter square feet.";
@@ -173,7 +164,6 @@
             } else {
                 document.getElementById("sFeetError").innerText = "";
             }
-
             // Price Validation
             if (cost.trim() === "") {
                 document.getElementById("costError").innerText = "Please enter price.";
@@ -181,7 +171,6 @@
             } else {
                 document.getElementById("costError").innerText = "";
             }
-
             // Location Validation
             if (loc.trim() === "") {
                 document.getElementById("locError").innerText = "Please enter location.";
@@ -189,7 +178,6 @@
             } else {
                 document.getElementById("locError").innerText = "";
             }
-
             // Pin Code Validation
             if (pinCode.trim() === "") {
                 document.getElementById("pinCodeError").innerText = "Please enter pin code.";
@@ -197,7 +185,6 @@
             } else {
                 document.getElementById("pinCodeError").innerText = "";
             }
-
             return isValid;
         }
 
@@ -218,7 +205,9 @@
         updateTime();
         setInterval(updateTime, 1000);
     </script>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.8/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
