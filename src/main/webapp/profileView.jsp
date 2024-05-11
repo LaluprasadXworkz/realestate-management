@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,91 +14,106 @@
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        .navbar-custom {
-            background: linear-gradient(271deg, #ff5733, #3498db, #000000);
-            padding: 20px 0;
+        .custom-navbar {
+            background-image: linear-gradient(270deg, #ff5733, #3498db, #000000);
         }
 
-        .navbar-custom .navbar-brand,
-        .navbar-custom .navbar-nav .nav-link {
-            color: #fff;
+        .center-align {
+            text-align: center;
         }
 
-        .navbar-custom .navbar-toggler-icon {
-            background-color: #fff;
+        /* Style the profile table */
+        .profile-table {
+            width: 100%;
+        }
+
+        .profile-table th {
+            width: 40%;
+        }
+
+        /* Responsive styling */
+        @media (max-width: 768px) {
+            .profile-table th {
+                width: auto;
+            }
         }
     </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom ">
-        <div class="container-fluid">
-            <img src="https://www.x-workz.in/static/media/Logo.cf195593dc1b3f921369.png"
-                                style="height: 53px; width: 110px ;margin-left: 15vh;" alt="XWorkz Logo">
 
-            <div class="navbar-collapse justify-content-end grid gap-3">
-                    <a href="toViewProfile?id=${inforef.getRid()}" class="ml-md-3">
-                        <button type="button" class="btn btn btn-outline-dark">Back</button>
-                    </a>
-
-                    <input value="${inforef.getFirstName()}" class="btn btn-secondary dropdown-toggle" type="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                    </input>
+    <nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="https://www.x-workz.in/static/media/Logo.cf195593dc1b3f921369.png"
+                    style="height: 50px; width: 105px; margin-left: 15px;" alt="XWorkz Logo" />
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-white ml-md-3" href="toViewProfile?id=${inforef.getRid()}"
+                            tabindex="-1" aria-disabled="true">Back</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="center-align border-success shadow p-3 mb-5 bg-body-tertiary rounded">
-                <table class="table">
-                    <tr>
-                        <th>First Name</th>
-                        <td>${inforef.getFirstName()}</td>
-                    </tr>
-                    <tr>
-                        <th>Last Name</th>
-                        <td>${inforef.getLastName()}</td>
-                    </tr>
-                    <tr>
-                        <th>Email</th>
-                        <td>${inforef.getEmail()}</td>
-                    </tr>
-                    <tr>
-                        <th>Alternative Email</th>
-                        <td>${inforef.getAlternativeEmail()}</td>
-                    </tr>
-                    <tr>
-                        <th>Contact Number</th>
-                        <td>${inforef.getContactNumber()}</td>
-                    </tr>
-                    <tr>
-                        <th>Alternative Contact Number</th>
-                        <td>${inforef.getAlternativeContact()}</td>
-                    </tr>
-                    <tr>
-                        <th>Current Address</th>
-                        <td>${inforef.getCurrentAddress()}</td>
-                    </tr>
-                    <tr>
-                        <th>Permanent Address</th>
-                        <td>${inforef.getPermanentAddress()}</td>
-                    </tr>
-                    <tr>
-                        <th>Pan Card Number</th>
-                        <td>${inforef.getPanCardNumber()}</td>
-                    </tr>
-                    <tr>
-                        <th>Aadhar Number</th>
-                        <td>${inforef.getAadharNumber()}</td>
-                    </tr>
-                </table>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="center-align border-success shadow p-3 mb-5 bg-body-tertiary rounded">
+                    <h2 class="text-success mb-4">Profile Information</h2>
+                    <table class="table profile-table">
+                        <tr>
+                            <th>First Name</th>
+                            <td>${inforef.getFirstName()}</td>
+                        </tr>
+                        <tr>
+                            <th>Last Name</th>
+                            <td>${inforef.getLastName()}</td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td>${inforef.getEmail()}</td>
+                        </tr>
+                        <tr>
+                            <th>Alternative Email</th>
+                            <td>${inforef.getAlternativeEmail()}</td>
+                        </tr>
+                        <tr>
+                            <th>Contact Number</th>
+                            <td>${inforef.getContactNumber()}</td>
+                        </tr>
+                        <tr>
+                            <th>Alternative Contact Number</th>
+                            <td>${inforef.getAlternativeContact()}</td>
+                        </tr>
+                        <tr>
+                            <th>Current Address</th>
+                            <td>${inforef.getCurrentAddress()}</td>
+                        </tr>
+                        <tr>
+                            <th>Permanent Address</th>
+                            <td>${inforef.getPermanentAddress()}</td>
+                        </tr>
+                        <tr>
+                            <th>Pan Card Number</th>
+                            <td>${inforef.getPanCardNumber()}</td>
+                        </tr>
+                        <tr>
+                            <th>Aadhar Number</th>
+                            <td>${inforef.getAadharNumber()}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
 
     <footer class="bg-dark text-white py-4">
         <div class="container">
@@ -128,6 +145,10 @@
         </div>
     </footer>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.8/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script>
         function updateTime() {
             const now = new Date();
@@ -139,13 +160,6 @@
         updateTime();
         setInterval(updateTime, 1000);
     </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
-        crossorigin="anonymous"></script>
 
 </body>
 

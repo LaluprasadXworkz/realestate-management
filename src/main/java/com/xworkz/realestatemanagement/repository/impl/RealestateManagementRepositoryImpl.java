@@ -7,16 +7,20 @@ import com.xworkz.realestatemanagement.repository.RealestateManagementRepository
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import java.util.Collections;
 import java.util.List;
 
 @Component
 @NoArgsConstructor
 public class RealestateManagementRepositoryImpl implements RealestateManagementRepository {
+    private static final Logger logger = LoggerFactory.getLogger(RealestateManagementRepositoryImpl.class);
 
     @Autowired
     EntityManagerFactory emf;
@@ -27,14 +31,16 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             em.getTransaction().begin();
             em.persist(dto);
             em.getTransaction().commit();
-            System.out.println("data saved ");
+            logger.info("Saved RegisterDto with ID :", dto.toString());
             return  true;
         } catch (PersistenceException e) {
+            logger.error("Error saving RegisterDto", e);
             e.printStackTrace();
             em.getTransaction().rollback();
             return false;
         } finally {
             em.close();
+            logger.debug("Entity manager closed after saving RegisterDto");
         }
     }
 
@@ -45,12 +51,14 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             em.getTransaction().begin();
             em.persist(dto);
             em.getTransaction().commit();
-            System.out.println("data saved ");
+            logger.info("Saved PropertyEntity : ", dto.toString());
         } catch (PersistenceException e) {
+            logger.error("Error saving PropertyEntity", e);
             e.printStackTrace();
             em.getTransaction().rollback();
         } finally {
             em.close();
+            logger.debug("Entity manager closed after saving PropertyEntity");
         }
     }
 
@@ -61,12 +69,14 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             em.getTransaction().begin();
             em.persist(dto);
             em.getTransaction().commit();
-            System.out.println("saveBiddingDto data saved ");
+            logger.info("Saved BiddingDto : ", dto.toString());
         } catch (PersistenceException e) {
+            logger.error("Error saving BiddingDto", e);
             e.printStackTrace();
             em.getTransaction().rollback();
         } finally {
             em.close();
+            logger.debug("Entity manager closed after saving BiddingDto");
         }
     }
 
@@ -77,12 +87,14 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             em.getTransaction().begin();
             em.persist(dto);
             em.getTransaction().commit();
-            System.out.println("saveSoldBought data saved ");
+            logger.info("Saved SoldBoughtDto : ", dto.toString());
         } catch (PersistenceException e) {
+            logger.error("Error saving SoldBoughtDto", e);
             e.printStackTrace();
             em.getTransaction().rollback();
         } finally {
             em.close();
+            logger.debug("Entity manager closed after saving SoldBoughtDto");
         }
     }
 
@@ -92,14 +104,17 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
         try {
             Query query = em.createNamedQuery("getEmail");
             List<String> list = query.getResultList();
-            System.out.println(list);
+            logger.info("Retrieved emails for email : ", list.toArray());
             return list;
         } catch (PersistenceException e) {
+            logger.error("Error fetching emails for email: {}", email, e);
             e.printStackTrace();
+            return null;
         } finally {
             em.close();
+            logger.debug("Entity manager closed after fetching emails for email: {}", email);
         }
-        return null;
+
     }
 
     @Override
@@ -108,14 +123,17 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
         try {
             Query query = em.createNamedQuery("getEmail");
             List<String> list = query.getResultList();
+            logger.info("Retrieved emails for login with email: {}", list.toArray());
             System.out.println(list);
             return list;
         } catch (PersistenceException e) {
+            logger.error("Error fetching emails for login with email: {}", email, e);
             e.printStackTrace();
+            return Collections.emptyList();
         } finally {
             em.close();
+            logger.debug("Entity manager closed after fetching emails for login with email: {}", email);
         }
-        return null;
     }
 
     @Override
@@ -124,14 +142,16 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
         try {
             Query query = em.createNamedQuery("getContactNumber");
             List<Long> list = query.getResultList();
-            System.out.println(list);
+            logger.info("Retrieved contact numbers for contact number: {}", list.toArray());
             return list;
         } catch (PersistenceException e) {
+            logger.error("Error fetching contact numbers for contact number: {}", contactNumber, e);
             e.printStackTrace();
+            return Collections.emptyList();
         } finally {
             em.close();
+            logger.debug("Entity manager closed after fetching contact numbers for contact number: {}", contactNumber);
         }
-        return null;
     }
 
     @Override
@@ -140,14 +160,16 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
         try {
             Query query = em.createNamedQuery("getPanCardNumber");
             List<String> list = query.getResultList();
-            System.out.println(list);
+            logger.info("Retrieved PAN card numbers for PAN card number: {}", list.toArray());
             return list;
         } catch (PersistenceException e) {
+            logger.error("Error fetching PAN card numbers for PAN card number: {}", panCardNumber, e);
             e.printStackTrace();
+            return Collections.emptyList();
         } finally {
             em.close();
+            logger.debug("Entity manager closed after fetching PAN card numbers for PAN card number: {}", panCardNumber);
         }
-        return null;
     }
 
     @Override
@@ -156,13 +178,16 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
         try {
             Query query = em.createNamedQuery("getAadharNumber");
             List<Long> list = query.getResultList();
+            logger.info("Retrieved Aadhar numbers for Aadhar number: {}", list.toArray());
             return list;
         } catch (PersistenceException e) {
+            logger.error("Error fetching Aadhar numbers for Aadhar number: {}", aadharNumber, e);
             e.printStackTrace();
+            return Collections.emptyList();
         } finally {
             em.close();
+            logger.debug("Entity manager closed after fetching Aadhar numbers for Aadhar number: {}", aadharNumber);
         }
-        return null;
     }
 
     @Override
@@ -170,15 +195,16 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
         EntityManager em = this.emf.createEntityManager();
         try {
             RegisterDto dto = em.find(RegisterDto.class, id);
-            System.out.println("getRegisterInfo :" + dto);
+            logger.info("Retrieved RegisterDto with ID: {}", dto.toString());
             return dto;
         } catch (PersistenceException e) {
+            logger.error("Error fetching RegisterDto with ID: {}", id, e);
             e.printStackTrace();
+            return null;
         } finally {
+            logger.debug("Entity manager closed after fetching RegisterDto with ID: {}", id);
             em.close();
         }
-        return null;
-
     }
 
     @Override
@@ -188,13 +214,16 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             Query query = em.createNamedQuery("getProperty");
             query.setParameter("id", id);
             List<PropertyEntity> dto = query.getResultList();
+            logger.info("PropertyEntity :"+dto.toArray());
             return dto;
         } catch (PersistenceException e) {
+            logger.error("Error fetching property for ID: {}", id, e);
             e.printStackTrace();
+            return Collections.emptyList();
         } finally {
             em.close();
+            logger.debug("Entity manager closed after fetching property for ID: {}", id);
         }
-        return null;
     }
 
     @Override
@@ -205,13 +234,16 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             query.setParameter("rid", id);
             query.setParameter("pid", id);
             List<BiddingDto> dto = query.getResultList();
+            logger.info("Bidding info"+dto.toArray());
             return dto;
         } catch (PersistenceException e) {
+            logger.error("Error fetching bidding info for ID: {}", id, e);
             e.printStackTrace();
+            return null;
         } finally {
             em.close();
+            logger.debug("Entity manager closed after fetching bidding info for ID: {}", id);
         }
-        return null;
     }
 
     @Override
@@ -221,13 +253,17 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             Query query = em.createNamedQuery("getSellerDetailsById");
             query.setParameter("sellerId", id);
             List<SoldBoughtDto> dto= query.getResultList();
+            logger.info("Seller details : "+dto.toArray());
             return dto;
         } catch (PersistenceException e) {
+            logger.error("Error fetching seller details for ID: {}", id, e);
             e.printStackTrace();
+            return Collections.emptyList();
         } finally {
             em.close();
+            logger.debug("Entity manager closed after fetching seller details for ID: {}", id);
         }
-        return null;
+
     }
 
     @Override
@@ -237,13 +273,16 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             Query query = em.createNamedQuery("getBuyerDetailsById");
             query.setParameter("buyerId", id);
             List<SoldBoughtDto> dto= query.getResultList();
+            logger.info("Buyer details :"+dto.toArray());
             return dto;
         } catch (PersistenceException e) {
+            logger.error("Error fetching buyer details for ID: {}", id, e);
             e.printStackTrace();
+            return Collections.emptyList();
         } finally {
             em.close();
+            logger.debug("Entity manager closed after fetching buyer details for ID: {}", id);
         }
-        return null;
     }
 
     @Override
@@ -253,13 +292,16 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             Query query = em.createNamedQuery("getInfoByEmail");
             query.setParameter("email", email);
             Object dto = query.getSingleResult();
+            logger.info("Info Email :"+dto.toString());
             return (RegisterDto) dto;
         } catch (PersistenceException e) {
+            logger.error("Error fetching RegisterDto by email: {}", email, e);
             e.printStackTrace();
+            return null;
         } finally {
             em.close();
+            logger.debug("Entity manager closed after fetching RegisterDto by email: {}", email);
         }
-        return null;
     }
 
     @Override
@@ -285,21 +327,26 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             query1.setParameter("updatedBy", dto.getAudit().getUpdatedBy());
             query1.setParameter("updatedOn", dto.getAudit().getUpdatedOn());
             query1.setParameter("i", id);
-            query1.executeUpdate();
+            int i2=query1.executeUpdate();
 
-            if (i == 1) {
+            if (i == 1 && i2 == 1) {
+                logger.info("Updated RegisterDto with ID: {}", id);
                 em.getTransaction().commit();
-                System.out.println(i + "-----------------");
                 return true;
             } else {
-                System.out.println("can't delete");
+                logger.warn("Failed to update RegisterDto with ID: {}", id);
+                em.getTransaction().rollback();
+                return false;
             }
         } catch (PersistenceException e) {
+            logger.error("Error updating RegisterDto with ID: {}", id, e);
             e.printStackTrace();
+            em.getTransaction().rollback();
+            return false;
         } finally {
             em.close();
+            logger.debug("Entity manager closed after updating RegisterDto with ID: {}", id);
         }
-        return false;
     }
 
     @Override
@@ -313,18 +360,22 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             int i = query.executeUpdate();
             if (i == 1) {
                 em.getTransaction().commit();
-                System.out.println("Otp updateRegisterByEmail ");
+                logger.info("OTP updated successfully for email: {}", email);
                 return true;
             } else {
-                System.out.println("updateRegisterByEmail not");
+                logger.warn("No OTP updated for email: {}", email);
+                em.getTransaction().rollback();
+                return false;
             }
         } catch (PersistenceException e) {
+            logger.error("Error updating OTP for email: {}", email, e);
             e.printStackTrace();
             em.getTransaction().rollback();
+            return false;
         } finally {
             em.close();
+            logger.debug("Entity manager closed after updating OTP for email: {}", email);
         }
-        return true;
     }
 
     @Override
@@ -338,18 +389,22 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             int i = query.executeUpdate();
             if (i == 1) {
                 em.getTransaction().commit();
-                System.out.println("accountStatus updateAccountStatusByEmail ");
+                logger.info("Account status updated successfully for email: {}", email);
                 return true;
             } else {
-                System.out.println("updateAccountStatusByEmail not");
+                logger.warn("No account status updated for email: {}", email);
+                em.getTransaction().rollback();
+                return false;
             }
         } catch (PersistenceException e) {
+            logger.error("Error updating account status for email: {}", email, e);
             e.printStackTrace();
             em.getTransaction().rollback();
+            return false;
         } finally {
             em.close();
+            logger.debug("Entity manager closed after updating account status for email: {}", email);
         }
-        return true;
     }
 
     @Override
@@ -360,15 +415,25 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             Query query = em.createNamedQuery("updateStatuesById");
             query.setParameter("statues", "sold");
             query.setParameter("id", id);
-            query.executeUpdate();
-            em.getTransaction().commit();
+           int update= query.executeUpdate();
+            if (update == 1) {
+                em.getTransaction().commit();
+                logger.info("Status updated to 'sold' for ID: {}", id);
+                return true;
+            }else {
+                logger.warn("No record updated for ID: {}", id);
+                em.getTransaction().rollback();
+                return false;
+            }
         } catch (PersistenceException e) {
             e.printStackTrace();
             em.getTransaction().rollback();
+            logger.error("Error updating status for ID: {}", id, e);
+            return false;
         } finally {
             em.close();
+            logger.debug("Entity manager closed after updating status for ID: {}", id);
         }
-        return true;
     }
 
     @Override
@@ -378,13 +443,16 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             Query query = em.createNamedQuery("getBiddingById");
             query.setParameter("id", id);
             Object dto = query.getSingleResult();
+            logger.info("Bidding : "+dto.toString());
             return (BiddingDto) dto;
         } catch (PersistenceException e) {
             e.printStackTrace();
+            logger.error("Error fetching BiddingDto with ID: {}", id, e);
+            return null;
         } finally {
             em.close();
+            logger.debug("Entity manager closed after fetching BiddingDto for ID: {}", id);
         }
-        return null;
     }
 
     @Override
@@ -394,13 +462,16 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             Query query = em.createNamedQuery("getOtpByEmail");
             query.setParameter("email", email);
             Object result = query.getSingleResult();
+            logger.info("Email : "+ result);
             return (String) result;
         } catch (PersistenceException e) {
             e.printStackTrace();
+            logger.error("Error fetching OTP for email: {}", email, e);
+            return null;
         } finally {
             em.close();
+            logger.debug("Entity manager closed after fetching OTP for email: {}", email);
         }
-        return null;
     }
 
     @Override
@@ -408,20 +479,22 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            RegisterDto shopInfoEntity = em.find(RegisterDto.class, rid);
-            if (shopInfoEntity != null) {
-                em.remove(shopInfoEntity);
+            RegisterDto registerDto = em.find(RegisterDto.class, rid);
+            if (registerDto != null) {
+                em.remove(registerDto);
                 em.getTransaction().commit();
-                System.out.println("Data deleted ..!");
+                logger.info("Deleted RegisterDto with ID: {}", rid);
                 return true;
             } else {
-                System.out.println("Data not deleted");
+                logger.warn("RegisterDto with ID {} not found, data not deleted", rid);
             }
         } catch (PersistenceException e) {
+            logger.error("Error deleting RegisterDto with ID: {}", rid, e);
             e.printStackTrace();
             em.getTransaction().rollback();
         } finally {
             em.close();
+            logger.debug("Entity manager closed after deleting RegisterDto with ID: {}", rid);
         }
         return false;
     }
@@ -433,12 +506,15 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             Query query = em.createNamedQuery("getPropertyTypeById");
             query.setParameter("id", id);
             Object dto = query.getSingleResult();
+            logger.info("PropertyEntity found for ID: {}",dto.toString());
             return (PropertyEntity) dto;
         } catch (PersistenceException e) {
+            logger.error("Error fetching PropertyEntity by ID: {}", id, e);
             e.printStackTrace();
+            return null;
         } finally {
             em.close();
+            logger.debug("Entity manager closed after fetching PropertyEntity by ID: {}", id);
         }
-        return null;
     }
 }
