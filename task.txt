@@ -1,0 +1,25 @@
+15-05-2024
+*Use @SL4J
+*use file appender
+
+*configure view resolver
+*Use jackson mapper
+*Junit
+
+* configure controller advice for exception handling
+-remove try catch
+
+*spring AOP
+
+
+
+edu
+training
+Skills & abilities
+-programming
+-tools
+tec summary
+project
+
+
+

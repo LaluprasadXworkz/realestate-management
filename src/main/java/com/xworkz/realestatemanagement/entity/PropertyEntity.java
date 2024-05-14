@@ -13,6 +13,7 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @NoArgsConstructor
 @Table(name = "Property_info")
+@ToString
 @NamedQueries({
         @NamedQuery(name = "getProperty",query = "select dto from PropertyEntity dto where dto.register.id!=:id and dto.statues='forSale'"),
         @NamedQuery(name = "getPropertyTypeById",query = "select dto from PropertyEntity dto where dto.id=:id"),

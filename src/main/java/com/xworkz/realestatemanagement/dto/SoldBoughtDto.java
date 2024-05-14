@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "SoldBought_Info")
 @Setter
+@ToString
 @Getter
 @RequiredArgsConstructor
 @NoArgsConstructor

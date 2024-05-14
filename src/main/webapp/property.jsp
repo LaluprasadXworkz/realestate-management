@@ -35,7 +35,7 @@
                 <img src="https://www.x-workz.in/static/media/Logo.cf195593dc1b3f921369.png"
                     style="height: 50px; width: 105px; margin-left: 15px;" alt="XWorkz Logo" />
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -50,48 +50,43 @@
         </div>
     </nav>
 
-    <div class="mx-auto p-2">
-
-        <form id="myForm" onsubmit="return validateForm()"
-            action="creatingPropertyDto" method="post" enctype="multipart/form-data"
-            class="form-control border-success shadow p-3 mb-5 bg-body-tertiary rounded container">
+    <div class="container mt-5">
+        <form id="myForm" onsubmit="return validateForm()" action="creatingPropertyDto" method="post"
+            enctype="multipart/form-data" class="form-control border-success shadow p-3 mb-5 bg-body-tertiary rounded">
             <div class="row justify-content-center">
                 <h3 class="form-label">Property Details</h3>
 
-                <div class="col-md-6">
+                <div class="col-sm-12 col-md-6 mb-3">
                     <label for="pType" class="form-label">Property Type <span class="errors">*</span></label>
-                    <input type="text" class="form-control" id="pType" name="propertyType" />
+                    <input type="text" class="form-control" id="pType" name="propertyType" required />
                     <span class="error" id="pTypeError"></span>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-sm-12 col-md-6 mb-3">
                     <label for="sFeet" class="form-label">Square Feet <span class="errors">*</span></label>
-                    <input type="text" class="form-control" id="sFeet" name="squareFeet" />
+                    <input type="text" class="form-control" id="sFeet" name="squareFeet" required />
                     <span class="error" id="sFeetError"></span>
                 </div>
-                <div class="col-md-6">
+                <div class="col-sm-12 col-md-6 mb-3">
                     <label for="cost" class="form-label">Price <span class="errors">*</span></label>
-                    <input type="text" class="form-control" id="cost" name="price" />
+                    <input type="text" class="form-control" id="cost" name="price" required />
                     <span class="error" id="costError"></span>
                 </div>
-                <div class="col-md-6">
+                <div class="col-sm-12 col-md-6 mb-3">
                     <label for="loc" class="form-label">Location <span class="errors">*</span></label>
-                    <textarea class="form-control" id="loc" name="location"></textarea>
+                    <textarea class="form-control" id="loc" name="location" required></textarea>
                     <span class="error" id="locError"></span>
                 </div>
-                <div class="col-md-6">
+                <div class="col-sm-12 col-md-6 mb-3">
                     <label for="pinCode" class="form-label">Pin code <span class="errors">*</span></label>
-                    <input type="number" class="form-control" id="pinCode" name="pinCode" />
+                    <input type="number" class="form-control" id="pinCode" name="pinCode" required />
                     <span class="error" id="pinCodeError"></span>
                 </div>
-                <div class="col-md-6">
+                <div class="col-sm-12 col-md-6 mb-3">
                     <label for="propertyImage" class="form-label">Add Property Images</label>
                     <input type="file" class="form-control" id="propertyImage" name="multipartFile" accept="image/*" />
                 </div>
-                <div>
-                    <br>
-                </div>
-                <div class="col-md-12 text-center">
+                <div class="col-12 text-center">
                     <input type="submit" class="btn btn-outline-danger" value="Submit" />
                     <input type="reset" class="btn btn-outline-dark" value="Clear" onclick="clearForm()" />
                 </div>
@@ -110,7 +105,7 @@
                 <div class="col-md-4 text-center">
                     <p>Designed by</p>
                     <img src="https://www.x-workz.in/static/media/Logo.cf195593dc1b3f921369.png"
-                        style="height: 70px; width: 145px" alt="XWorkz Logo" alt="XWorkz Logo" />
+                        style="height: 70px; width: 145px" alt="XWorkz Logo" />
                 </div>
                 <div class="col-md-4 text-end">
                     <h5>Follow Us</h5>
@@ -132,7 +127,6 @@
     <script>
         function validateForm() {
             var pType = document.getElementById("pType").value;
-            var oName = document.getElementById("oName").value;
             var sFeet = document.getElementById("sFeet").value;
             var cost = document.getElementById("cost").value;
             var loc = document.getElementById("loc").value;
@@ -146,7 +140,6 @@
             } else {
                 document.getElementById("pTypeError").innerText = "";
             }
-
             // Square Feet Validation
             if (sFeet.trim() === "") {
                 document.getElementById("sFeetError").innerText = "Please enter square feet.";
@@ -195,9 +188,7 @@
         updateTime();
         setInterval(updateTime, 1000);
     </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.8/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
