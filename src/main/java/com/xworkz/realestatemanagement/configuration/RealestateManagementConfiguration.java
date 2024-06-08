@@ -9,7 +9,12 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -17,7 +22,10 @@ import java.util.Properties;
 @Configuration
 @ComponentScan(basePackages = "com.xworkz.realestatemanagement")
 @PropertySource("classpath:connection.properties")
-public class RealestateManagementConfiguration {
+@PropertySource("classpath:application.properties")
+@EnableWebMvc
+@EnableScheduling
+public class RealestateManagementConfiguration implements WebMvcConfigurer {
     @Autowired
     Environment env;
 
@@ -56,5 +64,10 @@ public class RealestateManagementConfiguration {
         multipartResolver.setMaxUploadSize(20971520);
         multipartResolver.setMaxInMemorySize(1048576);
         return multipartResolver;
+    }
+
+    @Bean
+    public ViewResolver internalResourceViewResolver() {
+        return new InternalResourceViewResolver("/",".jsp");
     }
 }

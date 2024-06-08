@@ -37,6 +37,20 @@ prefix="c" %>
       .error {
         color: red;
       }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      footer {
+        margin-top: auto;
+        background-color: #333;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+      }
     </style>
   </head>
 
@@ -83,7 +97,6 @@ prefix="c" %>
     <div class="container mt-5">
       <div class="row justify-content-center">
         <div class="col-md-10">
-          <!-- Adjusted column width for medium screens -->
           <div
             class="center-align border-success shadow p-3 mb-5 bg-body-tertiary rounded"
           >

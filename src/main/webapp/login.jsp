@@ -43,6 +43,20 @@
       .error {
         color: red;
       }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      footer {
+        margin-top: auto;
+        background-color: #333;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+      }
     </style>
   </head>
   <body>
@@ -98,7 +112,7 @@
                   class="form-control"
                   id="emailID"
                   onchange="getEmailForLogin()"
-                  placeholder="Enter Registered Email (e.g., abc@gmail.com)"
+                  placeholder="Enter Registered Email"
                 />
                 <span class="error" id="emailerror">${msg}</span>
               </div>

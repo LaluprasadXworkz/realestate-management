@@ -31,7 +31,7 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             em.getTransaction().begin();
             em.persist(dto);
             em.getTransaction().commit();
-            log.info("Saved RegisterDto with ID :", dto.toString());
+            log.info("Saved RegisterDto with ID :", dto);
             return  true;
         } catch (PersistenceException e) {
             log.error("Error saving RegisterDto", e);
@@ -52,7 +52,7 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             em.getTransaction().begin();
             em.persist(dto);
             em.getTransaction().commit();
-            log.info("Saved PropertyEntity : ", dto.toString());
+            log.info("Saved PropertyEntity : ", dto);
         } catch (PersistenceException e) {
             log.error("Error saving PropertyEntity", e);
             e.printStackTrace();
@@ -71,7 +71,7 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             em.getTransaction().begin();
             em.persist(dto);
             em.getTransaction().commit();
-            log.info("Saved BiddingDto : ", dto.toString());
+            log.info("Saved BiddingDto : ", dto);
         } catch (PersistenceException e) {
             log.error("Error saving BiddingDto", e);
             e.printStackTrace();
@@ -90,7 +90,7 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             em.getTransaction().begin();
             em.persist(dto);
             em.getTransaction().commit();
-            log.info("Saved SoldBoughtDto : ", dto.toString());
+            log.info("Saved SoldBoughtDto : ", dto);
         } catch (PersistenceException e) {
             log.error("Error saving SoldBoughtDto", e);
             e.printStackTrace();
@@ -108,7 +108,7 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
         try {
             Query query = em.createNamedQuery("getEmail");
             List<String> list = query.getResultList();
-            log.info("Retrieved emails for email : ", list.toArray());
+            log.info("Retrieved emails for email : ", list);
             return list;
         } catch (PersistenceException e) {
             log.error("Error fetching emails for email: {}", email, e);
@@ -128,7 +128,7 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
         try {
             Query query = em.createNamedQuery("getEmail");
             List<String> list = query.getResultList();
-            log.info("Retrieved emails for login with email: {}", list.toArray());
+            log.info("Retrieved emails for login with email: {}", list);
             System.out.println(list);
             return list;
         } catch (PersistenceException e) {
@@ -148,7 +148,7 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
         try {
             Query query = em.createNamedQuery("getContactNumber");
             List<Long> list = query.getResultList();
-            log.info("Retrieved contact numbers for contact number: {}", list.toArray());
+            log.info("Retrieved contact numbers for contact number: {}", list);
             return list;
         } catch (PersistenceException e) {
             log.error("Error fetching contact numbers for contact number: {}", contactNumber, e);
@@ -167,7 +167,7 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
         try {
             Query query = em.createNamedQuery("getPanCardNumber");
             List<String> list = query.getResultList();
-            log.info("Retrieved PAN card numbers for PAN card number: {}", list.toArray());
+            log.info("Retrieved PAN card numbers for PAN card number: {}", list);
             return list;
         } catch (PersistenceException e) {
             log.error("Error fetching PAN card numbers for PAN card number: {}", panCardNumber, e);
@@ -186,7 +186,7 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
         try {
             Query query = em.createNamedQuery("getAadharNumber");
             List<Long> list = query.getResultList();
-            log.info("Retrieved Aadhar numbers for Aadhar number: {}", list.toArray());
+            log.info("Retrieved Aadhar numbers for Aadhar number: {}", list);
             return list;
         } catch (PersistenceException e) {
             log.error("Error fetching Aadhar numbers for Aadhar number: {}", aadharNumber, e);
@@ -204,7 +204,7 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
         EntityManager em = this.emf.createEntityManager();
         try {
             RegisterDto dto = em.find(RegisterDto.class, id);
-            log.info("Retrieved RegisterDto with ID: {}", dto.toString());
+            log.info("Retrieved RegisterDto with ID: {}", dto);
             return dto;
         } catch (PersistenceException e) {
             log.error("Error fetching RegisterDto with ID: {}", id, e);
@@ -224,7 +224,7 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             Query query = em.createNamedQuery("getProperty");
             query.setParameter("id", id);
             List<PropertyEntity> dto = query.getResultList();
-            log.info("PropertyEntity :"+dto.toArray());
+            log.info("PropertyEntity :"+dto);
             return dto;
         } catch (PersistenceException e) {
             log.error("Error fetching property for ID: {}", id, e);
@@ -245,7 +245,7 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             query.setParameter("rid", id);
             query.setParameter("pid", id);
             List<BiddingDto> dto = query.getResultList();
-            log.info("Bidding info"+dto.toArray());
+            log.info("Bidding info"+dto);
             return dto;
         } catch (PersistenceException e) {
             log.error("Error fetching bidding info for ID: {}", id, e);
@@ -265,7 +265,7 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             Query query = em.createNamedQuery("getSellerDetailsById");
             query.setParameter("sellerId", id);
             List<SoldBoughtDto> dto= query.getResultList();
-            log.info("Seller details : "+dto.toArray());
+            log.info("Seller details : "+dto);
             return dto;
         } catch (PersistenceException e) {
             log.error("Error fetching seller details for ID: {}", id, e);
@@ -286,7 +286,7 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             Query query = em.createNamedQuery("getBuyerDetailsById");
             query.setParameter("buyerId", id);
             List<SoldBoughtDto> dto= query.getResultList();
-            log.info("Buyer details :"+dto.toArray());
+            log.info("Buyer details :"+dto);
             return dto;
         } catch (PersistenceException e) {
             log.error("Error fetching buyer details for ID: {}", id, e);
@@ -306,7 +306,7 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             Query query = em.createNamedQuery("getInfoByEmail");
             query.setParameter("email", email);
             Object dto = query.getSingleResult();
-            log.info("Info Email :"+dto.toString());
+            log.info("Info Email :"+dto);
             return (RegisterDto) dto;
         } catch (PersistenceException e) {
             log.error("Error fetching RegisterDto by email: {}", email, e);
@@ -462,7 +462,7 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             Query query = em.createNamedQuery("getBiddingById");
             query.setParameter("id", id);
             Object dto = query.getSingleResult();
-            log.info("Bidding : "+dto.toString());
+            log.info("Bidding : "+dto);
             return (BiddingDto) dto;
         } catch (PersistenceException e) {
             e.printStackTrace();
@@ -528,7 +528,7 @@ public class RealestateManagementRepositoryImpl implements RealestateManagementR
             Query query = em.createNamedQuery("getPropertyTypeById");
             query.setParameter("id", id);
             Object dto = query.getSingleResult();
-            log.info("PropertyEntity found for ID: {}",dto.toString());
+            log.info("PropertyEntity found for ID: {}",dto);
             return (PropertyEntity) dto;
         } catch (PersistenceException e) {
             log.error("Error fetching PropertyEntity by ID: {}", id, e);

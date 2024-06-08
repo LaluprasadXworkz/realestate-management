@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,11 +34,12 @@ public class RealestateManagementServiceImpl implements RealestateManagementServ
     Audit audit;
     @Autowired
     EmailSend emailSend;
+
     @Override
     public boolean validateSaveRegisterInfo(RegisterDto dto) {
-        if (dto.getFirstName()!=null&&dto.getLastName()!=null){
+        if (dto.getFirstName() != null && dto.getLastName() != null) {
             audit.setId(dto.getRid());
-            audit.setCreatedBy(dto.getFirstName()+" "+dto.getLastName());
+            audit.setCreatedBy(dto.getFirstName() + " " + dto.getLastName());
             audit.setCreatedOn(LocalDateTime.now());
             dto.setAudit(audit);
             dto.setAccountStatus("Active");
@@ -44,7 +47,7 @@ public class RealestateManagementServiceImpl implements RealestateManagementServ
             emailSend.mailSend(dto.getEmail());
             log.info("Validating and saving Register data");
             return true;
-        }else {
+        } else {
             log.warn("Register is null, data not saved");
             return false;
         }
@@ -52,28 +55,28 @@ public class RealestateManagementServiceImpl implements RealestateManagementServ
 
     @Override
     public void validateSavePropertyDTO(PropertyDto dto) throws IOException {
-        if (dto.getPropertyType()!=null){
+        if (dto.getPropertyType() != null) {
             log.info("Validating and saving property data");
             dto.setStatues("forSale");
             saveImage(dto);
-            PropertyEntity entity=new PropertyEntity();
-            BeanUtils.copyProperties(dto,entity);
+            PropertyEntity entity = new PropertyEntity();
+            BeanUtils.copyProperties(dto, entity);
             repository.savePropertyDTO(entity);
-        }else {
+        } else {
             log.warn("Property type is null, data not saved");
         }
     }
 
-    public void savePropertyDto(int logIn,PropertyDto dto) throws IOException {
-        if (logIn !=0 && dto.getPropertyType()!=null) {
+    public void savePropertyDto(int logIn, PropertyDto dto) throws IOException {
+        if (logIn != 0 && dto.getPropertyType() != null) {
             log.info("Validating and Saving property data");
-            RegisterDto  register= validateGetRegisterInfo(logIn);
+            RegisterDto register = validateGetRegisterInfo(logIn);
             register.setRid(logIn);
             System.out.println(logIn);
             dto.setRegister(register);
-            dto.setOwnerName(register.getFirstName()+" "+register.getLastName());
+            dto.setOwnerName(register.getFirstName() + " " + register.getLastName());
             validateSavePropertyDTO(dto);
-        }else {
+        } else {
             log.warn("Property type is null, data not saved");
         }
 
@@ -86,21 +89,23 @@ public class RealestateManagementServiceImpl implements RealestateManagementServ
 
     @Override
     public void validateSaveBiddingDto(BiddingDto dto) {
-        if (dto.getAmount()!=0){
+        if (dto.getAmount() != 0) {
             log.info("ValidateSaveBiddingDto Data saved");
             repository.saveBiddingDto(dto);
-        }else {
+        } else {
             log.warn("validateSaveBiddingDto Not saved");
         }
     }
+
     @Autowired
     PropertyEntity entity;
+
     @Override
-    public void saveBidding(int pid,int logIn, BiddingDto dto){
-        if (pid != 0 && logIn !=0 && dto.getAmount()!=0) {
-            PropertyEntity propertyDto=validateGetPropertyTypeById(pid);
+    public void saveBidding(int pid, int logIn, BiddingDto dto) {
+        if (pid != 0 && logIn != 0 && dto.getAmount() != 0) {
+            PropertyEntity propertyDto = validateGetPropertyTypeById(pid);
             System.out.println(propertyDto);
-            RegisterDto register =validateGetRegisterInfo(logIn);
+            RegisterDto register = validateGetRegisterInfo(logIn);
             dto.setBidderName(register.getFirstName() + " " + register.getLastName());
             dto.setBidderId(register.getRid());
             dto.setPropertyType(propertyDto.getPropertyType());
@@ -108,17 +113,17 @@ public class RealestateManagementServiceImpl implements RealestateManagementServ
             entity.setId(pid);
             dto.setPropertyId(entity);
             validateSaveBiddingDto(dto);
-            log.info("BiddingDto Data saved"+dto);
-        }else {
+            log.info("BiddingDto Data saved" + dto);
+        } else {
             log.warn("BiddingDto Data not saved");
         }
     }
 
     @Override
     public void validateSaveSoldBought(SoldBoughtDto dto) {
-        if (!dto.getSoldBy().isEmpty()&&!dto.getSoldTo().isEmpty()){
+        if (!dto.getSoldBy().isEmpty() && !dto.getSoldTo().isEmpty()) {
             repository.saveSoldBought(dto);
-        }else {
+        } else {
             log.warn("validateSaveSoldBought Not working");
         }
     }
@@ -127,8 +132,8 @@ public class RealestateManagementServiceImpl implements RealestateManagementServ
     SoldBoughtDto soldBought;
 
     @Override
-    public void saveSoldBought(int id){
-        if (id !=0) {
+    public void saveSoldBought(int id) {
+        if (id != 0) {
             BiddingDto dto = getBiddingById(id);
             validateUpdateStatuesById(id);
             PropertyEntity propertyDto = validateGetPropertyTypeById(dto.getPropertyId().getId());
@@ -148,42 +153,34 @@ public class RealestateManagementServiceImpl implements RealestateManagementServ
 
             emailSend.mailSend(soldTo.getEmail(), propertyDto.getPropertyType(), dto.getBidderName(), dto.getAmount());
             emailSend.mailSend(soldFrom.getEmail(), propertyDto.getPropertyType(), soldBy, dto.getAmount(), dto.getLocation());
-            log.info("saveSoldBought Data saved "+soldBought);
-        }else {
+            log.info("saveSoldBought Data saved " + soldBought);
+        } else {
             log.warn("saveSoldBought Data not saved");
         }
     }
+
+    @Value("${image.directory}")
+    private String imageDirectory;
+
     public void saveImage(PropertyDto dto) throws IOException {
-        if(dto.getMultipartFile()!=null && !dto.getMultipartFile().isEmpty()) {
+
+        if (dto.getMultipartFile() != null && !dto.getMultipartFile().isEmpty()) {
             byte[] bytes = dto.getMultipartFile().getBytes();
-            String filePath = "C:\\Users\\lalup\\OneDrive\\Desktop\\realEsate\\image" + dto.getMultipartFile().getOriginalFilename();
-            File file = new File(filePath);
-            Path path = Paths.get(file.getAbsolutePath());
+            String filePath = imageDirectory + File.separator + dto.getMultipartFile().getOriginalFilename();
+            File directory = new File(imageDirectory);
+            Path path = Paths.get(filePath);
             Files.write(path, bytes);
             dto.setPropertyImage(dto.getMultipartFile().getOriginalFilename().toString());
-            log.info("Image :" + dto.getMultipartFile().getOriginalFilename().toString());
-        }else{
+            log.info("Image saved: " + dto.getMultipartFile().getOriginalFilename().toString());
+        } else {
             String defaultImageName = "realEsate.jpg";
             dto.setPropertyImage(defaultImageName);
+            log.info("Default image set: " + defaultImageName);
         }
-//        else{
-//            String defaultImageName = "realEsate.jpg";
-//            String defaultImagePath="C:\\Users\\lalup\\OneDrive\\Desktop\\realEsate\\image"+defaultImageName;
-//
-//            byte[] defaultImageBytes=Files.readAllBytes(Paths.get(defaultImagePath));
-//            String filePath="C:\\Users\\lalup\\OneDrive\\Desktop\\realEsate\\image"+defaultImageName;
-//            File file=new File(filePath);
-//            Path path= Paths.get(file.getAbsolutePath());
-//            Files.write(path,defaultImageBytes);
-//            dto.setPropertyImage(defaultImageName);
-//            log.warn("Image is File is empty");
-//        }
     }
-
     @Override
     public String getEmailForLogin(String email) {
         List<String> mailCheck = repository.getEmailForLogin(email);
-
         for (String str : mailCheck) {
             if (str.equals(email)) {
                 return "Click on Generate OTP";
@@ -192,15 +189,27 @@ public class RealestateManagementServiceImpl implements RealestateManagementServ
         return "Register the mail Id Before login";
     }
 
+    String emailid;
     @Override
     public boolean validateToGetEmail(String email) {
         List<String> extMail = repository.getEmail(email);
         for (String str : extMail) {
             if (str.equals(email)) {
+                this.emailid=email;
                 return true;
             }
         }
         return false;
+    }
+
+    @Override
+    public void updateOtp() {
+        if(emailid!=null){
+            validateUpdateOTPByEmail("000000", emailid);
+            log.info("Default OTP set to this email: " + emailid);
+        }else {
+            log.info("Default OTP not set to this email: " + emailid);
+        }
     }
 
     @Override

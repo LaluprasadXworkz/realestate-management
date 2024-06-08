@@ -23,24 +23,37 @@
     <javax.mail>1.4.7</javax.mail>
     <started.mail>2.6.0</started.mail>
     <fileupload>1.3.1</fileupload>
+    <logbackVersion>1.1.3</logbackVersion>
+    <slf4jVersion>1.7.25</slf4jVersion>
 
   </properties>
 
   <dependencies>
 
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.7.30</version> <!-- Check for the latest version -->
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+      <version>5.3.32</version>
     </dependency>
 
-    <!-- Logback Classic -->
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <version>1.2.3</version> <!-- Check for the latest version -->
+      <version>${logbackVersion}</version>
+      <scope>compile</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jul-to-slf4j</artifactId>
+      <version>${slf4jVersion}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>log4j-over-slf4j</artifactId>
+      <version>${slf4jVersion}</version>
+    </dependency>
 
     <!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
     <dependency>

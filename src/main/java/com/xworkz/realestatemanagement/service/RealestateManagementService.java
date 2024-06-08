@@ -37,5 +37,6 @@ public interface RealestateManagementService {
     public List<BiddingDto> validateGetBiddingInfoById(int id);
     public List<SoldBoughtDto> validateGetSellerDetailsById(int id);
     public List<SoldBoughtDto> validateGetBuyerDetailsById(int id);
+    public void updateOtp();
 
 }

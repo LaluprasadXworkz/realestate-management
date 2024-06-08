@@ -1,25 +1,33 @@
 15-05-2024
 *Use @SL4J
 *use file appender
-
 *configure view resolver
-*Use jackson mapper
 *Junit
-
-* configure controller advice for exception handling
--remove try catch
 
 *spring AOP
 
 
 
-edu
-training
-Skills & abilities
--programming
--tools
-tec summary
-project
+* configure controller advice for exception handling
+-remove try catch
+*Use jackson mapper
+
+
+
+1-06-2024
+Splunk
+
+Spring scheduler
+repo-clearusedOtps
+scheduler-in Utl
+
+Spring aop -log ex
+
+move all string constrains to properties
+
+react
+
+
 
 
 

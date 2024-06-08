@@ -43,6 +43,19 @@
       .error {
         color: red;
       }
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      footer {
+       margin-top: auto;
+       background-color: #333;
+       color: #fff;
+       padding: 20px;
+       text-align: center;
+      }
     </style>
   </head>
 

@@ -37,6 +37,19 @@ prefix="c" %>
       .error {
         color: red;
       }
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      footer {
+        margin-top: auto;
+        background-color: #333;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+      }
     </style>
   </head>
 
@@ -83,13 +96,11 @@ prefix="c" %>
     <div class="container mt-5">
       <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
-
           <div
             class="center-align border-success shadow p-3 mb-5 bg-body-tertiary rounded"
           >
             <h4 class="text-center text-danger">Bidding's</h4>
             <div class="table-responsive">
-
               <table class="table table-hover">
                 <thead>
                   <tr>

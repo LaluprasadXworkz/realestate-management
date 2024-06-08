@@ -18,7 +18,8 @@
           background-image: linear-gradient(270deg, #ff5733, #3498db, #000000);
         }
 
-        .errors, .error {
+        .errors,
+        .error {
           color: red;
         }
       </style>
@@ -38,7 +39,8 @@
           <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link text-white ml-md-3" href="toViewProfile?id=${inforef.getRid()}" tabindex="-1" aria-disabled="true">Back</a>
+                <a class="nav-link text-white ml-md-3" href="toViewProfile?id=${inforef.getRid()}" tabindex="-1"
+                  aria-disabled="true">Back</a>
               </li>
             </ul>
           </div>

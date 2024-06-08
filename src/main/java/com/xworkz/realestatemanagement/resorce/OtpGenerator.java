@@ -1,7 +1,11 @@
 package com.xworkz.realestatemanagement.resorce;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.security.SecureRandom;
 
+
+@Slf4j
 public class OtpGenerator {
     private static  final  String OTP_CHARACTERS="0123456789";
     private static final int OTP_LENGTH=6;
@@ -18,6 +22,6 @@ public class OtpGenerator {
 
     public static void main(String[] args) {
         String otp=generateOTP();
-        System.out.println("Generated OTP: "+otp);
+        log.info("Generated OTP: "+otp);
     }
 }

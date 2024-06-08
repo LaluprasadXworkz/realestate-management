@@ -39,6 +39,20 @@ prefix="c" %>
           width: 50%;
         }
       }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      footer {
+        margin-top: auto;
+        background-color: #333;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+      }
     </style>
   </head>
 
@@ -96,8 +110,59 @@ prefix="c" %>
       </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <footer class="bg-dark text-white py-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <h5>Contact Us</h5>
+            <p>Email: myemail@gmail.com</p>
+            <p>Phone: +91 9874563210</p>
+          </div>
+          <div class="col-md-4 text-center">
+            <p>Designed by</p>
+            <img
+              src="https://www.x-workz.in/static/media/Logo.cf195593dc1b3f921369.png"
+              style="height: 70px; width: 145px"
+              alt="XWorkz Logo"
+              alt="XWorkz Logo"
+            />
+          </div>
+          <div class="col-md-4 text-end">
+            <h5>Follow Us</h5>
+            <a href="https://www.facebook.com/" class="me-2"
+              ><i class="fab fa-facebook"></i
+            ></a>
+            <a href="https://www.instagram.com/" class="me-2"
+              ><i class="fab fa-instagram"></i
+            ></a>
+            <a href="https://github.com/" class="me-2"
+              ><i class="fab fa-github"></i
+            ></a>
+            <a href="https://twitter.com/"><i class="fab fa-twitter"></i></a>
+          </div>
+          <div class="col-md-12 text-center">
+            <div>
+              <p id="current-time" class="mb-0">Loading...</p>
+              <p id="current-date" class="mb-0">Loading...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      function updateTime() {
+        const now = new Date();
+        const time = now.toLocaleTimeString();
+        const date = now.toLocaleDateString();
+        document.getElementById("current-time").textContent = time;
+        document.getElementById("current-date").textContent = date;
+      }
+      updateTime();
+      setInterval(updateTime, 1000);
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.8/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </body>
 </html>
