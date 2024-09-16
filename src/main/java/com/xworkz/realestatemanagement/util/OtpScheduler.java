@@ -13,9 +13,9 @@ public class OtpScheduler {
     @Autowired
     RealestateManagementService service;
 
-    @Scheduled(fixedRate = 3 * 60 * 1000)
-    public void scheduleOtpUpdate() {
-        service.updateOtp();
-        log.info("Invoking Scheduled");
-    }
+//    @Scheduled(fixedRate = 3 * 60 * 1000)
+//    public void scheduleOtpUpdate() {
+//        service.updateOtp();
+//        log.info("Invoking Scheduled");
+//    }
 }
