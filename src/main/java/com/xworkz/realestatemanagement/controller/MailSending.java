@@ -10,8 +10,8 @@ import org.springframework.mail.SimpleMailMessage;
 @Slf4j
 public class MailSending {
     public static void main(String[] args) {
-        String userName="Lalu";
-        String email="laluprasad245527@gmail.com";
+        String userName="";
+        String email="";
         MailSending mailSending=new MailSending();
         mailSending.mailSend(email,userName);
     }
@@ -21,7 +21,7 @@ public class MailSending {
     public boolean mailSend(String email,String otp) {
         try {
             SimpleMailMessage message =new SimpleMailMessage();
-            message.setFrom("laluprasad245527@gmail.com");
+            message.setFrom("");
             message.setTo(email);
             message.setSubject("OTP for login");
             message.setText("Your otp for admin login is"+otp);
